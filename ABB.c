@@ -41,8 +41,8 @@ int main(){
     printf("%c\n",getKey(minimum(root)));
     printf("Valor Maximo: ");
     printf("%c\n",getKey(maximum(root)));
-    printf("Borrar el valor a\n");
-    deleteNode(root,'b');
+    printf("Borrar el valor d\n");
+    deleteNode(root,'d');
     printf("Arbol nuevo\n");
     inOrderTraversal(root);
    return 0; 
@@ -57,14 +57,14 @@ void inOrderTraversal(struct Node* root){
 void preOrderTraversal(struct Node* root){
     if(root!=NULL){
         printf("Valor del nodo: %c\n",(*root).key);
-        inOrderTraversal((*root).left);
-        inOrderTraversal((*root).right);
+        preOrderTraversal((*root).left);
+        preOrderTraversal((*root).right);
     }
 }
 void postOrderTraversal(struct Node* root){
     if(root!=NULL){
-        inOrderTraversal((*root).left);
-        inOrderTraversal((*root).right);
+        postOrderTraversal((*root).left);
+        postOrderTraversal((*root).right);
         printf("Valor del nodo: %c\n",(*root).key);
     }
 }
