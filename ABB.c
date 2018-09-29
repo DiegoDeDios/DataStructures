@@ -19,6 +19,11 @@ void postOrderTraversal(struct Node* root);
 struct Node* Insert(struct Node* root, char key);
 struct Node* crearNodo(char key);
 struct Node* search(struct Node* root,char key);
+struct Node* deleteNode(struct Node* root,char key);
+struct Node* minimum(struct Node* root);
+struct Node* maximum(struct Node* root);
+char getKey(struct Node* node);
+void deleteTree(struct Node* root);
 
 int main(){
     struct Node* root;
@@ -30,11 +35,16 @@ int main(){
     Insert(root, 'z');
     printf("*****Recorrido en orden simetrico*******\n");
     inOrderTraversal(root);
-    printf("*****Recorrido en orden de profundidad******\n");
-    preOrderTraversal(root);
-    printf("******Recorrido en postorden********\n");
-    postOrderTraversal(root);
-
+    printf("Valor de la raiz: ");
+    printf("%c\n",getKey(root));
+    printf("Valor Minimo: ");
+    printf("%c\n",getKey(minimum(root)));
+    printf("Valor Maximo: ");
+    printf("%c\n",getKey(maximum(root)));
+    printf("Borrar el valor a\n");
+    deleteNode(root,'b');
+    printf("Arbol nuevo\n");
+    inOrderTraversal(root);
    return 0; 
 }
 void inOrderTraversal(struct Node* root){
@@ -88,4 +98,53 @@ struct Node* search(struct Node* root, char key){
     else if(key > (*root).key){
         return search((*root).right,key);
     }
+}
+struct Node* minimum(struct Node* root){
+    struct Node* temp = root;
+    while((*temp).left!=NULL){
+        temp = (*temp).left;
+    }
+    return temp;
+}
+struct Node* maximum(struct Node* root){
+    struct Node* temp = root;
+    while((*temp).right!=NULL){
+        temp = (*temp).right;
+    }
+    return temp;
+}
+struct Node* deleteNode(struct Node* root, char key){
+    if(root==NULL){
+        return NULL;
+    }
+    if(key > (*root).key){
+        (*root).right = deleteNode((*root).right,key);
+    }
+    else if(key < (*root).key){
+        (*root).left = deleteNode((*root).left,key);
+    }
+    else{
+        if((*root).left == NULL){
+            struct Node *temp = (*root).right;
+            free(root);
+            return temp;
+        }
+        if((*root).right == NULL){
+            struct Node *temp = (*root).left;
+            free(root);
+            return temp;
+        }
+        else{
+            struct Node* temp = minimum((*root).right);
+            (*root).key = (*temp).key;
+            (*root).right = deleteNode((*root).right,(*temp).key);
+        }
+    }
+    return root;
+}
+void deleteTree(struct Node* root){
+    free(root);
+}
+char getKey(struct Node* node){
+    return (*node).key;
 }
